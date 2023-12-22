@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+package auth;
+
+option go_package = "./";
+
+message InitAuthRequest {
+  string CallbackUrl = 1;
+}
+
+message InitAuthResponse {
+  string Url = 1;
+  string State = 2;
+}
+
+message CallbackRequest {
+  string Code = 1;
+}
+
+message CallbackResponse {
+  string Id = 1;
+  string Email = 2;
+  string Picture = 3;
+  callbackToken Token = 4;
+}
+
+message callbackToken {
+  string AccessToken = 1;
+  string RefreshToken = 2;
+  string Expiry = 3;
+}
+
+service AuthService {
+  rpc InitAuth(InitAuthRequest) returns (InitAuthResponse);
+  rpc Callback(CallbackRequest) returns (CallbackResponse);
+}
